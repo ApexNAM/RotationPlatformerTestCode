@@ -12,22 +12,11 @@ function LRotateOne(arr : number[], n : number)
 }
 
 
-function LRotate(arr : number[], d : number, n : number,  arr2 : number[])
+function LRotate(arr : number[], d : number, n : number)
 {
     for (let i = 0; i < d; i++)
     {
         LRotateOne(arr,n);
-
-        if (arr[0] == 1)
-        {
-            arr2[6] = 1;
-            arr[0] = 0;
-        }
-        else if (arr[0] == 3)
-        {
-            arr2[6] = 3;
-            arr[0] = 0;
-        }
     }
 }
 
@@ -45,40 +34,62 @@ function RRotateOne(arr : number[], n : number)
 }
 
 
-function RRotate(arr : number[], d : number, n : number, arr2 : number[])
+function RRotate(arr : number[], d : number, n : number)
 {
     for (let i = 0; i < d; i++)
     {
         RRotateOne(arr,n);
-
-        if (arr[6] == 1)
-        {
-            arr[6] = 0;
-            arr2[6] = 1;
-        }
-        else if (arr[6] == 3)
-        {
-            arr[6] = 0;
-            arr2[6] = 3;
-        }
     }
 }
 
-function PrintArray(arr : number[])
+function PrintArray(arr : number[], gName : string)
 {
-    console.log(arr);
+    console.log(gName , arr);
 }
 
-let arr1 : number[] = [0, 0, 0, 0, 1, 0, 0];
-let arr2 : number[] = [0, 0, 3, 0, 0, 0, 0];
+
+let arr1 : number[] = [0, 0, 0, 1, 0, 0, 0];
+let arr2 : number[] = [0, 0, 0, 0, 0, 0, 0];
+
+let isForward : boolean = false;
+
+function Movement()
+{
+    if (isForward)
+    {
+        RRotate(arr2,1,arr2.length);
+
+        if (arr2[0] == 1)
+        {
+            for (let i =0; i < 6; i++)
+            {
+                arr2[i] = 0;
+            }
+
+            arr1[6] = 1;
+            isForward = false;
+        }
+    }
+    else
+    {
+        LRotate(arr1,1,arr1.length);
+
+        if (arr1[6] == 1)
+        {
+            arr1[6] = 0;
+            arr2[0] = 1; 
+
+            isForward = true;          
+        }
+    }
+
+    PrintArray(arr1, "Backward");
+    PrintArray(arr2, "Forward ");
+
+    console.log();
+}
 
 for (let i = 0; i < 20; i++)
 {
-    LRotate(arr1,1,arr1.length, arr2);
-    RRotate(arr2,1,arr2.length, arr1);
-
-    PrintArray(arr1);
-    PrintArray(arr2);
-
-    console.log("\n");
+    Movement();
 }
