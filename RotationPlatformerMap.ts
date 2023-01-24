@@ -1,95 +1,90 @@
-function LRotateOne(arr : number[], n : number)
-{
-    let temp : number = arr[0];
-    let i;
-
-    for (i = 0; i < n - 1; i++)
-    {
-        arr[i] = arr[i+1];
-    }
-
-    arr[i] = temp;
-}
-
-
-function LRotate(arr : number[], d : number, n : number)
-{
-    for (let i = 0; i < d; i++)
-    {
-        LRotateOne(arr,n);
-    }
-}
-
-function RRotateOne(arr : number[], n : number)
-{
-    let temp : number = arr[6];
-    let i;
-
-    for (i = 6; i > 0; i--)
-    {
-        arr[i] = arr[i-1];
-    }
-
-    arr[0] = temp;
-}
-
-
-function RRotate(arr : number[], d : number, n : number)
-{
-    for (let i = 0; i < d; i++)
-    {
-        RRotateOne(arr,n);
-    }
-}
-
-function PrintArray(arr : number[], gName : string)
+function PrintArray(arr : string[], gName : string)
 {
     console.log(gName , arr);
 }
 
 
-let arr1 : number[] = [0, 0, 0, 1, 0, 0, 0];
-let arr2 : number[] = [0, 0, 0, 0, 0, 0, 0];
+let arr1 : string[] = [" ", " ", " ", "P", " ", " ", " "];
+let arr2 : string[] = [" ", " ", " ", " ", "H", " ", " "];
 
-let isForward : boolean = false;
+let isForward : boolean = true;
+let locationPlayerArr1 : number = 0;
+let locationPlayerArr2 : number = 0;
 
 function Movement()
 {
     if (isForward)
     {
-        RRotate(arr2,1,arr2.length);
-
-        if (arr2[0] == 1)
+        for (let i = 0; i < arr1.length; i++)
         {
-            for (let i =0; i < 6; i++)
+            if (arr1[i] == "P")
             {
-                arr2[i] = 0;
+                locationPlayerArr1 = i;
             }
+        }
 
-            arr1[6] = 1;
+        if (locationPlayerArr1 == 6)
+        {
+            locationPlayerArr2 = arr2.length - 1;
+
+            arr1[locationPlayerArr1] = " ";
+            arr2[locationPlayerArr2] = "P";
+
             isForward = false;
+        }
+        else 
+        {
+            arr1[locationPlayerArr1] = " ";
+            locationPlayerArr1++;
+            arr1[locationPlayerArr1] = "P";
         }
     }
     else
     {
-        LRotate(arr1,1,arr1.length);
-
-        if (arr1[6] == 1)
+        for (let i = 0; i < arr2.length; i++)
         {
-            arr1[6] = 0;
-            arr2[0] = 1; 
+            if (arr2[i] == "P")
+            {
+                locationPlayerArr2 = i;
+            }
+            else if (arr2[i] == "H")
+            {
+                arr2[i] = "H";
+            }
+        }
 
-            isForward = true;          
+        if (locationPlayerArr2 == 0)
+        {
+            locationPlayerArr1 = 0;
+
+            arr2[locationPlayerArr2] = " ";
+            arr1[locationPlayerArr1] = "P";
+
+            isForward = true;
+        }
+        else 
+        {
+            arr2[locationPlayerArr2] = " ";
+            locationPlayerArr2--;
+
+            if (arr2[locationPlayerArr2] == "H")
+            {
+                arr2[locationPlayerArr2 - 1] = "P";
+            }
+            else 
+            {
+                arr2[locationPlayerArr2] = "P";
+            }
         }
     }
 
     PrintArray(arr1, "Backward");
     PrintArray(arr2, "Forward ");
 
-    console.log();
+    console.log(isForward);
 }
 
-for (let i = 0; i < 20; i++)
+for (let i = 0; i < 40; i++)
 {
     Movement();
 }
